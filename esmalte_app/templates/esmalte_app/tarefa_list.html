@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lista de Tarefas</title>
+</head>
+<body>
+    <h1>Minhas Tarefas</h1>
+    <a href="{% url 'criar_tarefa' %}">Nova Tarefa</a>
+
+    <ul>
+        {% for tarefa in tarefas %}
+            <li>
+                <span style="text-decoration: {% if tarefa.completa %}line-through{% endif %};">
+                    <a href="{% url 'detalhe_tarefa' pk=tarefa.pk %}">{{ tarefa.titulo }}</a>
+                </span>
+                - 
+                <a href="{% url 'atualizar_tarefa' pk=tarefa.pk %}">Editar</a>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
