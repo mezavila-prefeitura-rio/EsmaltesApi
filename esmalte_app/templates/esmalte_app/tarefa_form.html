@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    
+    <meta charset="UTF-8">
+   
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar Nova Tarefa</title>
+    
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <style>
+       
+        .form-input-style {
+            
+            @apply bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-blue focus:border-primary-blue block w-full p-3.5 shadow-sm transition duration-150 ease-in-out;
+        }
+        
+       
+        input:not([type="checkbox"]), textarea {
+            
+            @apply form-input-style;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+    
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary-blue': '#3b82f6', /* Um azul vibrante */
+                        'primary-dark': '#1f2937', /* Um cinza escuro para títulos */
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
+
+    <div class="w-full max-w-lg bg-white p-8 md:p-10 rounded-xl shadow-2xl border border-gray-200">
+        
+       
+        <h1 class="text-3xl font-extrabold text-primary-dark mb-6 border-b pb-2">
+            Nova Tarefa
+        </h1>
+
+      
+        <form method="POST" action="">
+            
+            {% csrf_token %}
+            
+            <p class="text-gray-500 mb-6">Preencha os detalhes da nova tarefa abaixo.</p>
+
+           
+            {% for field in form %}
+                
+                <div class="mb-5 {% if field.name == 'completa' %}flex items-center{% endif %}">
+                    
+                   
+                    <label for="{{ field.id_for_label }}" class="block mb-2 text-sm font-medium text-gray-900 
+                           {% if field.name == 'completa' %}ml-2 mb-0 cursor-pointer{% endif %}">
+                        {{ field.label }}:
+                    </label>
+
+                    
+                    {% if field.name == 'completa' %}
+                       
+                        {{ field }}
+                        
+                        <style>
+                          
+                           #id_completa {
+                                @apply w-4 h-4 text-primary-blue bg-gray-100 border-gray-300 rounded focus:ring-primary-blue;
+                           }
+                        </style>
+                    {% else %}
+                        
+                        {{ field }}
+                    {% endif %}
+                    
+                    {% if field.errors %}
+                        {% for error in field.errors %}
+                            <p class="mt-2 text-sm text-red-600 italic">{{ error }}</p>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            
+            {% endfor %}
+            
+            {{ form.non_field_errors }}
+
+            
+            <button type="submit" 
+                    class="w-full text-white bg-primary-blue hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-bold rounded-lg text-lg px-5 py-3 
+                           text-center transition duration-150 ease-in-out transform hover:scale-[1.01] shadow-md hover:shadow-lg mt-6">
+                Salvar Tarefa
+            </button>
+            
+            <a href="{% url 'lista_tarefas' %}" 
+               class="mt-4 block text-center text-sm text-gray-500 hover:text-primary-dark transition duration-150 ease-in-out">
+               Voltar para a Lista
+            </a>
+            
+        </form>
+    </div>
+
+</body>
+</html>
